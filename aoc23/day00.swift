@@ -10,10 +10,6 @@ import Foundation
 struct Day00Solution : DailySolution {
     
     
-//    func readPuzzleFrom(filename: String) -> [String] {
-//        return [];
-//    }
-    
     func solvePart1(puzzle: [String]) -> String {
         return "1";
     }
