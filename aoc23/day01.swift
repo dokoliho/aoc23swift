@@ -17,6 +17,7 @@ extension String {
             for (from, to) in translationTable {
                 if substring.hasPrefix(from) {
                     digits.append(to)
+                    break
                 }
             }
         }
@@ -24,7 +25,7 @@ extension String {
     }
     
     func calibrationValue(translationTable: [(String, String)] ) -> Int {
-        var digits = extractDigits(translationTable)
+        let digits = extractDigits(translationTable)
         if let first_digit = (digits.first?.wholeNumberValue) {
             if let last_digit = (digits.last?.wholeNumberValue) {
                 return first_digit*10+last_digit
