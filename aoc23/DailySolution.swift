@@ -15,7 +15,7 @@ protocol DailySolution {
     
 }
 
-extension Day00Solution {
+extension DailySolution {
 
     static func readPuzzleFrom(filename: String) -> [String] {
         do {
