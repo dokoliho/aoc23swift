@@ -16,6 +16,9 @@
 		A7DEFD972B19E3150068E876 /* day00.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD812B0FE5F10068E876 /* day00.swift */; };
 		A7DEFD982B19E3190068E876 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD7A2B0FE5660068E876 /* main.swift */; };
 		A7DEFD992B19E31C0068E876 /* DailySolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD832B0FE7070068E876 /* DailySolution.swift */; };
+		A7DEFD9C2B1AFA7A0068E876 /* day02.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD9B2B1AFA7A0068E876 /* day02.swift */; };
+		A7DEFD9E2B1B17020068E876 /* day02test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD9D2B1B17020068E876 /* day02test.swift */; };
+		A7DEFD9F2B1B187A0068E876 /* day02.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD9B2B1AFA7A0068E876 /* day02.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +43,9 @@
 		A7DEFD8D2B19BAB50068E876 /* aoc23test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = aoc23test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7DEFD942B19BB190068E876 /* day01test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day01test.swift; sourceTree = "<group>"; };
 		A7DEFD9A2B19E5BD0068E876 /* day01.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day01.txt; sourceTree = "<group>"; };
+		A7DEFD9B2B1AFA7A0068E876 /* day02.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day02.swift; sourceTree = "<group>"; };
+		A7DEFD9D2B1B17020068E876 /* day02test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day02test.swift; sourceTree = "<group>"; };
+		A7DEFDA02B1B19AA0068E876 /* day02.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = day02.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,7 @@
 				A7DEFD7A2B0FE5660068E876 /* main.swift */,
 				A7DEFD812B0FE5F10068E876 /* day00.swift */,
 				A7DEFD872B19A07E0068E876 /* day01.swift */,
+				A7DEFD9B2B1AFA7A0068E876 /* day02.swift */,
 			);
 			path = aoc23;
 			sourceTree = "<group>";
@@ -95,6 +102,7 @@
 			children = (
 				A7DEFD862B0FEFFC0068E876 /* day00.txt */,
 				A7DEFD9A2B19E5BD0068E876 /* day01.txt */,
+				A7DEFDA02B1B19AA0068E876 /* day02.txt */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -103,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				A7DEFD942B19BB190068E876 /* day01test.swift */,
+				A7DEFD9D2B1B17020068E876 /* day02test.swift */,
 			);
 			path = aoc23test;
 			sourceTree = "<group>";
@@ -197,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7DEFD822B0FE5F10068E876 /* day00.swift in Sources */,
+				A7DEFD9C2B1AFA7A0068E876 /* day02.swift in Sources */,
 				A7DEFD882B19A07E0068E876 /* day01.swift in Sources */,
 				A7DEFD7B2B0FE5660068E876 /* main.swift in Sources */,
 				A7DEFD842B0FE7070068E876 /* DailySolution.swift in Sources */,
@@ -211,6 +221,8 @@
 				A7DEFD952B19BB190068E876 /* day01test.swift in Sources */,
 				A7DEFD962B19E3110068E876 /* day01.swift in Sources */,
 				A7DEFD982B19E3190068E876 /* main.swift in Sources */,
+				A7DEFD9F2B1B187A0068E876 /* day02.swift in Sources */,
+				A7DEFD9E2B1B17020068E876 /* day02test.swift in Sources */,
 				A7DEFD972B19E3150068E876 /* day00.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
