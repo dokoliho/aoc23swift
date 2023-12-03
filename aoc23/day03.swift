@@ -11,11 +11,26 @@ public struct Day03Solution : DailySolution {
 
 
     func solvePart1(puzzle: [String]) -> String {
-        return "1"
+        var parser = NumberParser(puzzle)
+        var sum = 0
+        var number : Int?
+        repeat {
+            let symbolAttached : Bool
+            (number, symbolAttached) = parser.nextNumber()
+            if symbolAttached {
+                sum += number ?? 0
+            }
+        } while (number != nil)
+        return String(sum)
     }
     
     func solvePart2(puzzle: [String]) -> String{
-        return "2"
+        var parser = NumberParser(puzzle)
+        var number : Int?
+        repeat {
+            (number, _) = parser.nextNumber()
+        } while (number != nil)
+        return String(parser.sumOfGearRatios())
     }
     
 }
@@ -27,11 +42,18 @@ extension String {
     }
 }
 
+struct Position: Hashable {
+    let row: Int
+    let col: Int
+}
+
+
 struct NumberParser {
     
-    var row = 0
-    var col = 0
+    var position = Position(row:0, col:0)
     var processing = ""
+    var star_positions: Set<(Position)> = []
+    var numbersAttachedToStar: [Position:[Int]] = [:]
     var attachedSymbolFound = false
     let engine : [String]
     
@@ -40,35 +62,86 @@ struct NumberParser {
     }
     
     mutating func nextNumber() -> (Int?, Bool) {
-        if row >= engine.count {
+        if position.row >= engine.count {
             return (nil, false)
         }
-        if col >= engine[row].count || !engine[row][col].isNumber {
+        if position.col >= engine[position.row].count || !engine[position.row][position.col].isNumber {
             step()
             if !processing.isEmpty {
                 let value = Int(processing)
                 let valid = attachedSymbolFound
                 processing = ""
                 attachedSymbolFound = false
+                if valid {
+                    for star_position in star_positions {
+                        if var numbers = numbersAttachedToStar[star_position] {
+                            numbers.append(value ?? 0)
+                            numbersAttachedToStar[star_position] = numbers
+                        } else {
+                            numbersAttachedToStar[star_position] = [value ?? 0]
+                        }
+                    }
+                }
+                star_positions = []
                 return (value, valid)
             }
             return nextNumber()
         }
-        processing.append(engine[row][col])
-        //TODO: Check attachedSymbolFound
+        processing.append(engine[position.row][position.col])
+        attachedSymbolFound = attachedSymbolFound || isSymbolArround()
         step()
         return nextNumber()
     }
     
     mutating func step() {
-        if row >= engine.count {
+        if position.row >= engine.count {
             return
         }
-        if col >= engine[row].count {
-            col = 0
-            row += 1
+        if position.col >= engine[position.row].count {
+            position = Position(row: position.row+1, col: 0)
             return
         }
-        col += 1
+        position = Position(row: position.row, col: position.col+1)
     }
+    
+    mutating func isSymbolArround() -> Bool {
+        for r in position.row-1...position.row+1 {
+            for c in position.col-1...position.col+1 {
+                if isSymbol(at: Position(row: r, col: c)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    mutating func isSymbol(at position: Position) -> Bool {
+        if position.row<0 || position.row >= engine.count {
+            return false
+        }
+        if position.col<0 || position.col >= engine[position.row].count {
+            return false
+        }
+        if engine[position.row][position.col].isNumber {
+            return false
+        }
+        if engine[position.row][position.col] == "." {
+            return false
+        }
+        if engine[position.row][position.col] == "*"  {
+            star_positions.insert(position)
+        }
+        return true
+    }
+    
+    func sumOfGearRatios() -> Int {
+        var sum = 0
+        for (_, attachedNumbers) in numbersAttachedToStar {
+            if attachedNumbers.count == 2 {
+                sum += attachedNumbers[0]*attachedNumbers[1]
+            }
+        }
+        return sum
+    }
+    
 }
