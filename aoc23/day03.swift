@@ -82,13 +82,13 @@ struct NumberParser {
         let valid = isSymbolAttachedToCurrentNumber
         if valid {
             validNumbers.append(value ?? 0)
-            updateAttachesStars(value)
+            updateAttachedStars(value)
         }
         prepareForNextNumber()
         return (value, valid)
     }
         
-    fileprivate mutating func updateAttachesStars(_ value: Int?) {
+    fileprivate mutating func updateAttachedStars(_ value: Int?) {
         for star_position in starPositions {
             if var numbers = numbersAttachedToStarAtPosition[star_position] {
                 numbers.append(value ?? 0)
@@ -150,7 +150,7 @@ struct NumberParser {
     mutating func prepareForNextNumber() {
         digitsOfCurrentNumber = ""
         isSymbolAttachedToCurrentNumber = false
-        starPositions = []
+        starPositions.removeAll()
     }
     
     func sumOfGearRatios() -> Int {
