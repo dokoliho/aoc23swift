@@ -8,7 +8,7 @@
 import XCTest
 @testable import aoc23
 
-final class day01: XCTestCase {
+final class day01test: XCTestCase {
 
     func testSolvePart1() throws {
         let currentPuzzle = ["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"]
