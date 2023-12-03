@@ -15,16 +15,4 @@ protocol DailySolution {
     
 }
 
-extension DailySolution {
 
-    static func readPuzzleFrom(filename: String) -> [String] {
-        do {
-            let file = try String(contentsOfFile: filename)
-            let text: [String] = file.components(separatedBy: "\n")
-            return text
-        } catch let error {
-            Swift.print("Fatal Error: \(error.localizedDescription)")
-        }
-        return []
-    }
-}

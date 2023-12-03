@@ -14,10 +14,21 @@ func runWithTimeControl(title: String, data: [String], operation: ([String])->St
     print("\(title): \(result) (\(timeElapsed) s.)")
 }
 
+func readPuzzleFrom(filename: String) -> [String] {
+    do {
+        let file = try String(contentsOfFile: filename)
+        let text: [String] = file.components(separatedBy: "\n")
+        return text
+    } catch let error {
+        Swift.print("Fatal Error: \(error.localizedDescription)")
+    }
+    return []
+}
 
+
+
+let currentPuzzle = readPuzzleFrom(filename: "day03.txt")
 let solution = Day03Solution()
-let currentPuzzle = Day03Solution.readPuzzleFrom(filename: "day03.txt")
-
 
 
 runWithTimeControl(title: "Teil1", data: currentPuzzle, operation: solution.solvePart1)

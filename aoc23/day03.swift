@@ -101,12 +101,12 @@ struct NumberParser {
     
     fileprivate mutating func parsedDigit() -> (Int?, Bool) {
         digitsOfCurrentNumber.append(engine[parsingCursor.row][parsingCursor.col])
-        isSymbolAttachedToCurrentNumber = isSymbolAttachedToCurrentNumber || isSymbolArround()
+        isSymbolAttachedToCurrentNumber = isSymbolAttachedToCurrentNumber || isSymbolNearby()
         moveParsingCursor()
         return nextNumber()
     }
 
-    mutating func moveParsingCursor() {
+    fileprivate mutating func moveParsingCursor() {
         if parsingCursor.row >= engine.count {
             return
         }
@@ -117,7 +117,7 @@ struct NumberParser {
         parsingCursor = Position(row: parsingCursor.row, col: parsingCursor.col+1)
     }
     
-    mutating func isSymbolArround() -> Bool {
+    fileprivate mutating func isSymbolNearby() -> Bool {
         for r in parsingCursor.row-1...parsingCursor.row+1 {
             for c in parsingCursor.col-1...parsingCursor.col+1 {
                 if isSymbol(at: Position(row: r, col: c)) {
