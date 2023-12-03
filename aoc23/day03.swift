@@ -50,10 +50,10 @@ struct NumberParser {
     let engine : [String]
     var parsingCursor = Position(row:0, col:0)
     var digitsOfCurrentNumber = ""
-    var isSymbolAttachedToCurrentNumber = false
+    var foundSymbolCloseToCurrentNumber = false
+    var starsCloseToCurrentNumber: Set<(Position)> = []
     var validNumbers: [Int] = []
-    var starPositions: Set<(Position)> = []
-    var numbersAttachedToStarAtPosition: [Position:[Int]] = [:]
+    var numbersCloseToStars: [Position:[Int]] = [:]
     
     init(_ schematic: [String]) {
         engine = schematic
@@ -79,29 +79,29 @@ struct NumberParser {
 
     fileprivate mutating func finishedParsingNumber() -> (Int?, Bool) {
         let value = Int(digitsOfCurrentNumber)
-        let valid = isSymbolAttachedToCurrentNumber
+        let valid = foundSymbolCloseToCurrentNumber
         if valid {
             validNumbers.append(value ?? 0)
-            updateAttachedStars(value)
+            updateNearbyStars(value)
         }
         prepareForNextNumber()
         return (value, valid)
     }
         
-    fileprivate mutating func updateAttachedStars(_ value: Int?) {
-        for star_position in starPositions {
-            if var numbers = numbersAttachedToStarAtPosition[star_position] {
+    fileprivate mutating func updateNearbyStars(_ value: Int?) {
+        for star in starsCloseToCurrentNumber {
+            if var numbers = numbersCloseToStars[star] {
                 numbers.append(value ?? 0)
-                numbersAttachedToStarAtPosition[star_position] = numbers
+                numbersCloseToStars[star] = numbers
             } else {
-                numbersAttachedToStarAtPosition[star_position] = [value ?? 0]
+                numbersCloseToStars[star] = [value ?? 0]
             }
         }
     }
     
     fileprivate mutating func parsedDigit() -> (Int?, Bool) {
         digitsOfCurrentNumber.append(engine[parsingCursor.row][parsingCursor.col])
-        isSymbolAttachedToCurrentNumber = isSymbolAttachedToCurrentNumber || isSymbolNearby()
+        foundSymbolCloseToCurrentNumber = foundSymbolCloseToCurrentNumber || isSymbolNearby()
         moveParsingCursor()
         return nextNumber()
     }
@@ -128,7 +128,7 @@ struct NumberParser {
         return false
     }
     
-    mutating func isSymbol(at position: Position) -> Bool {
+    fileprivate mutating func isSymbol(at position: Position) -> Bool {
         if position.row<0 || position.row >= engine.count {
             return false
         }
@@ -142,22 +142,22 @@ struct NumberParser {
             return false
         }
         if engine[position.row][position.col] == "*"  {
-            starPositions.insert(position)
+            starsCloseToCurrentNumber.insert(position)
         }
         return true
     }
     
-    mutating func prepareForNextNumber() {
+    fileprivate mutating func prepareForNextNumber() {
         digitsOfCurrentNumber = ""
-        isSymbolAttachedToCurrentNumber = false
-        starPositions.removeAll()
+        foundSymbolCloseToCurrentNumber = false
+        starsCloseToCurrentNumber.removeAll()
     }
     
     func sumOfGearRatios() -> Int {
         var sum = 0
-        for (_, attachedNumbers) in numbersAttachedToStarAtPosition {
-            if attachedNumbers.count == 2 {
-                sum += attachedNumbers[0]*attachedNumbers[1]
+        for (_, numbers) in numbersCloseToStars {
+            if numbers.count == 2 {
+                sum += numbers[0]*numbers[1]
             }
         }
         return sum
