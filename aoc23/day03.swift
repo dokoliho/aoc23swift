@@ -9,20 +9,16 @@ import Foundation
 
 public struct Day03Solution : DailySolution {
 
-
+    
     func solvePart1(puzzle: [String]) -> String {
         var parser = NumberParser(puzzle)
-        var sum = 0
         var number : Int?
         repeat {
-            let symbolAttached : Bool
-            (number, symbolAttached) = parser.nextNumber()
-            if symbolAttached {
-                sum += number ?? 0
-            }
+            (number, _) = parser.nextNumber()
         } while (number != nil)
-        return String(sum)
+        return String(parser.sumValidNumbers())
     }
+
     
     func solvePart2(puzzle: [String]) -> String{
         var parser = NumberParser(puzzle)
@@ -42,6 +38,7 @@ extension String {
     }
 }
 
+
 struct Position: Hashable {
     let row: Int
     let col: Int
@@ -50,63 +47,79 @@ struct Position: Hashable {
 
 struct NumberParser {
     
-    var position = Position(row:0, col:0)
-    var processing = ""
-    var star_positions: Set<(Position)> = []
-    var numbersAttachedToStar: [Position:[Int]] = [:]
-    var attachedSymbolFound = false
     let engine : [String]
+    var parsingCursor = Position(row:0, col:0)
+    var digitsOfCurrentNumber = ""
+    var isSymbolAttachedToCurrentNumber = false
+    var validNumbers: [Int] = []
+    var starPositions: Set<(Position)> = []
+    var numbersAttachedToStarAtPosition: [Position:[Int]] = [:]
     
     init(_ schematic: [String]) {
         engine = schematic
     }
     
     mutating func nextNumber() -> (Int?, Bool) {
-        if position.row >= engine.count {
+        guard parsingCursor.row < engine.count else {
             return (nil, false)
         }
-        if position.col >= engine[position.row].count || !engine[position.row][position.col].isNumber {
-            step()
-            if !processing.isEmpty {
-                let value = Int(processing)
-                let valid = attachedSymbolFound
-                processing = ""
-                attachedSymbolFound = false
-                if valid {
-                    for star_position in star_positions {
-                        if var numbers = numbersAttachedToStar[star_position] {
-                            numbers.append(value ?? 0)
-                            numbersAttachedToStar[star_position] = numbers
-                        } else {
-                            numbersAttachedToStar[star_position] = [value ?? 0]
-                        }
-                    }
-                }
-                star_positions = []
-                return (value, valid)
-            }
-            return nextNumber()
+        if parsingCursor.col >= engine[parsingCursor.row].count || !engine[parsingCursor.row][parsingCursor.col].isNumber {
+            return parsedNonDigitCharacter()
         }
-        processing.append(engine[position.row][position.col])
-        attachedSymbolFound = attachedSymbolFound || isSymbolArround()
-        step()
+        return parsedDigit()
+    }
+        
+    fileprivate mutating func parsedNonDigitCharacter() -> (Int?, Bool) {
+        moveParsingCursor()
+        if !digitsOfCurrentNumber.isEmpty {
+            return finishedParsingNumber()
+        }
         return nextNumber()
     }
+
+    fileprivate mutating func finishedParsingNumber() -> (Int?, Bool) {
+        let value = Int(digitsOfCurrentNumber)
+        let valid = isSymbolAttachedToCurrentNumber
+        if valid {
+            validNumbers.append(value ?? 0)
+            updateAttachesStars(value)
+        }
+        prepareForNextNumber()
+        return (value, valid)
+    }
+        
+    fileprivate mutating func updateAttachesStars(_ value: Int?) {
+        for star_position in starPositions {
+            if var numbers = numbersAttachedToStarAtPosition[star_position] {
+                numbers.append(value ?? 0)
+                numbersAttachedToStarAtPosition[star_position] = numbers
+            } else {
+                numbersAttachedToStarAtPosition[star_position] = [value ?? 0]
+            }
+        }
+    }
     
-    mutating func step() {
-        if position.row >= engine.count {
+    fileprivate mutating func parsedDigit() -> (Int?, Bool) {
+        digitsOfCurrentNumber.append(engine[parsingCursor.row][parsingCursor.col])
+        isSymbolAttachedToCurrentNumber = isSymbolAttachedToCurrentNumber || isSymbolArround()
+        moveParsingCursor()
+        return nextNumber()
+    }
+
+    mutating func moveParsingCursor() {
+        if parsingCursor.row >= engine.count {
             return
         }
-        if position.col >= engine[position.row].count {
-            position = Position(row: position.row+1, col: 0)
+        if parsingCursor.col >= engine[parsingCursor.row].count {
+            parsingCursor = Position(row: parsingCursor.row+1, col: 0)
             return
         }
-        position = Position(row: position.row, col: position.col+1)
+        parsingCursor = Position(row: parsingCursor.row, col: parsingCursor.col+1)
     }
     
     mutating func isSymbolArround() -> Bool {
-        for r in position.row-1...position.row+1 {
-            for c in position.col-1...position.col+1 {
+        for r in parsingCursor.row-1...parsingCursor.row+1 {
+            for c in parsingCursor.col-1...parsingCursor.col+1 {
                 if isSymbol(at: Position(row: r, col: c)) {
                     return true
                 }
@@ -129,19 +142,30 @@ struct NumberParser {
             return false
         }
         if engine[position.row][position.col] == "*"  {
-            star_positions.insert(position)
+            starPositions.insert(position)
         }
         return true
     }
     
+    mutating func prepareForNextNumber() {
+        digitsOfCurrentNumber = ""
+        isSymbolAttachedToCurrentNumber = false
+        starPositions = []
+    }
+    
     func sumOfGearRatios() -> Int {
         var sum = 0
-        for (_, attachedNumbers) in numbersAttachedToStar {
+        for (_, attachedNumbers) in numbersAttachedToStarAtPosition {
             if attachedNumbers.count == 2 {
                 sum += attachedNumbers[0]*attachedNumbers[1]
             }
         }
         return sum
     }
+   
+    func sumValidNumbers() -> Int {
+        return validNumbers.reduce(0, +)
+    }
+
     
 }
