@@ -49,7 +49,7 @@ final class day03test: XCTestCase {
         repeat {
             (number, _) = parser.nextNumber()
         } while (number != nil)
-        XCTAssertTrue(parser.numbersAttachedToStarAtPosition[Position(row:1, col:3)]?.count==2)
+        XCTAssertTrue(parser.numbersCloseToStars[Position(row:1, col:3)]?.count==2)
     }
 
 

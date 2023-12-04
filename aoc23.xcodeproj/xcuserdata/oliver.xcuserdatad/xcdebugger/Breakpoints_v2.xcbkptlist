@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "774866C3-9E8F-4F89-BC45-49B47AD57732"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "aoc23/day02.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "solvePart1(puzzle:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4 - 3be9d93b1f4c1457"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aoc23test.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4 - 9ead11c96388a9f7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (aoc23test.Game) -&gt; Swift.Bool in aoc23test.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4 - 4c525f0badda2dcf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aoc23.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4 - e1e848c3611d5bae"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (aoc23.Game) -&gt; Swift.Bool in aoc23.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4 - 4c525f0badda2dcf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aoc23.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "348">
+               </Location>
+               <Location
+                  uuid = "58FAF058-A7EB-4CC8-BA4D-DFCC4C33BAA4 - ab8f52c918a5f5af"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (aoc23.Game) -&gt; Swift.Bool in aoc23.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "80">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2027AA35-15D8-4BA3-BF69-70C51BCB58E4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "aoc23/day02.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "18"
+            endingLineNumber = "18"
+            landmarkName = "solvePart1(puzzle:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2027AA35-15D8-4BA3-BF69-70C51BCB58E4 - 3be9d93b1f4c1474"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aoc23test.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "428">
+               </Location>
+               <Location
+                  uuid = "2027AA35-15D8-4BA3-BF69-70C51BCB58E4 - a1b2f500893cea52"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (aoc23test.Game) -&gt; Swift.Int in aoc23test.Day02Solution.solvePart1(puzzle: Swift.Array&lt;Swift.String&gt;) -&gt; Swift.String"
+                  moduleName = "aoc23test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day02.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "8">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6F63E67E-6127-4F33-B634-4994AE8E856F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "aoc23/day03.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "nextNumber()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "15A4C441-EEE1-44A1-9A5A-665FD2924775"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "aoc23test/day03test.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "testIdentifyGears()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5143AA16-0755-4582-AE54-4146517C57AF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "aoc23/main.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
