@@ -208,5 +208,53 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "038CA9CD-94EA-4EBC-8A92-EA4CE39CCAAE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "aoc23/day05.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "mergeRanges(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "038CA9CD-94EA-4EBC-8A92-EA4CE39CCAAE - 78ead1b45940b0b0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aoc23test.SeedMapTransformer.mergeRanges(Swift.Array&lt;Swift.ClosedRange&lt;Swift.Int&gt;&gt;) -&gt; Swift.Array&lt;Swift.ClosedRange&lt;Swift.Int&gt;&gt;"
+                  moduleName = "aoc23test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day05.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "130"
+                  endingLineNumber = "130"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "038CA9CD-94EA-4EBC-8A92-EA4CE39CCAAE - 78ead1b45940b0b0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aoc23test.SeedMapTransformer.mergeRanges(Swift.Array&lt;Swift.ClosedRange&lt;Swift.Int&gt;&gt;) -&gt; Swift.Array&lt;Swift.ClosedRange&lt;Swift.Int&gt;&gt;"
+                  moduleName = "aoc23test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/oliver/Development/aoc23/aoc23/aoc23/day05.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "130"
+                  endingLineNumber = "130"
+                  offsetFromSymbolStart = "204">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
