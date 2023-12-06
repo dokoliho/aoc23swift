@@ -10,5 +10,8 @@
             </PersistentString>
          </PersistentStrings>
       </ContextState>
+      <ContextState
+         contextName = "Day06Solution.solvePart2(puzzle:):day06.swift">
+      </ContextState>
    </ContextStates>
 </VariablesViewState>
