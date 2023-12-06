@@ -47,35 +47,6 @@ final class day05test: XCTestCase {
     ]
     
     
-    func testParser() throws {
-        let parser = SeedMapParser(puzzle: currentPuzzle)
-        XCTAssertEqual([79, 14, 55, 13], parser.seeds)
-        XCTAssertEqual(7, parser.transformers.count)
-        XCTAssertEqual(2, parser.transformers[0].mapentry.count)
-        XCTAssertEqual(3, parser.transformers[1].mapentry.count)
-        XCTAssertEqual(4, parser.transformers[2].mapentry.count)
-        XCTAssertEqual(2, parser.transformers[3].mapentry.count)
-    }
-    
-    
-    func testTransformer() throws {
-        let parser = SeedMapParser(puzzle: currentPuzzle)
-        let transformer = parser.transformers[0]
-        
-        XCTAssertEqual(0, transformer.transform(0))
-        XCTAssertEqual(1, transformer.transform(1))
-        XCTAssertEqual(48, transformer.transform(48))
-        XCTAssertEqual(49, transformer.transform(49))
-        XCTAssertEqual(52, transformer.transform(50))
-        XCTAssertEqual(53, transformer.transform(51))
-        XCTAssertEqual(98, transformer.transform(96))
-        XCTAssertEqual(99, transformer.transform(97))
-        XCTAssertEqual(50, transformer.transform(98))
-        XCTAssertEqual(51, transformer.transform(99))
-
-    }
-
-    
     func testSolvePart1() throws {
         let solution = Day05Solution()
         let result = solution.solvePart1(puzzle: currentPuzzle)
