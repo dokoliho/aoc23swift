@@ -9,27 +9,32 @@ import XCTest
 
 final class day06test: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
+    let currentPuzzle = [
+        "Time:      7  15   30",
+        "Distance:  9  40  200",
+        "",
+    ]
+    
+    
+    func testSqrt() throws {
+        let result1 = sqrtUInt64(16)
+        XCTAssertEqual(4, result1)
+        let result2 = sqrtUInt64(17)
+        XCTAssertEqual(4, result2)
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        
+    func testSolvePart1() throws {
+        let solution = Day06Solution()
+        let result = solution.solvePart1(puzzle: currentPuzzle)
+        XCTAssertEqual("288", result)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testSolvePart2() throws {
+        let solution = Day06Solution()
+        let result = solution.solvePart2(puzzle: currentPuzzle)
+        XCTAssertEqual("71503", result)
     }
 
 }
