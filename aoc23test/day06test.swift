@@ -7,6 +7,7 @@
 
 import XCTest
 
+
 final class day06test: XCTestCase {
 
     let currentPuzzle = [
