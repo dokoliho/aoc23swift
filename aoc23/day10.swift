@@ -36,6 +36,21 @@ public struct Day10Solution : DailySolution {
     }
 
     func solvePart1(puzzle: [String]) -> String {
+        let distances = bfs(puzzle: puzzle)
+        let maxDistance = distances.values.max() ?? 0
+        return String(maxDistance)
+    }
+    
+    func solvePart2(puzzle: [String]) -> String {
+        let distances = bfs(puzzle: puzzle)
+        let pipePositions = Array(distances.keys)
+        let puzzleWithJunkMarked = markJunk(inPuzzle: puzzle, with: ".", whenNotIn: pipePositions)
+        let includedTiles = puzzleWithJunkMarked.map({ countInnerTiles(line: $0)}).reduce(0, +)
+        return String(includedTiles)
+    }
+    
+    
+    func bfs(puzzle: [String]) -> [Position:Int] {
         let nodes = parse(puzzle)
         let edges = findEdges(nodes)
         var known = [Position]()
@@ -49,7 +64,7 @@ public struct Day10Solution : DailySolution {
                 known.append(node)
                 let newFound = expand(node, edges, known)
                 if newFound.isEmpty {
-                    return String(distances[node]!)
+                    break
                 }
                 for newNode in newFound {
                     distances[newNode] = distances[node]!+1
@@ -57,35 +72,27 @@ public struct Day10Solution : DailySolution {
                 frontier += newFound
             }
         }
-        return ""
+        return distances
     }
+
     
-    func solvePart2(puzzle: [String]) -> String {
-        var counter = 0
-        for line in puzzle {
-            var outside = true
-            var onpath = false
-            let pipePath = ""
-            for c in line {
-                if !pipePath.isEmpty {
-                    if ".|".contains(c) {
-                        
-                    }
-                }
-                if c == "." {
-                    if onpath {
-                        // We crossed a pipe and are now in open field
-                        onpath = false
-                        outside = !outside
-                    }
-                    counter = outside ? counter : counter + 1
+    func markJunk(inPuzzle puzzle: [String], with junk: Character, whenNotIn pipePositions: [Position]) -> [String] {
+        var result = [String]()
+        for (row, line) in puzzle.enumerated() {
+            var newLine = ""
+            for (col, c) in line.enumerated() {
+                if c != "." && !pipePositions.contains(Position(row: row, col: col)) {
+                    newLine.append(junk)
                 } else {
-                    onpath = true
+                    newLine.append(c)
                 }
             }
+            result.append(newLine)
+            print(newLine)
         }
-        return String(counter)
+        return result
     }
+
     
     
     struct Position : Hashable {
@@ -172,5 +179,48 @@ public struct Day10Solution : DailySolution {
         return result
     }
     
-        
+    
+    func countInnerTiles(line: String) -> Int {
+        var inside = false
+        var pipeBehind=""
+        var count = 0
+        for c in line {
+            inside = crossedPipe(pipeBehind) ? !inside : inside
+            pipeBehind = haveToClearPipe(pipeBehind) ? "" : pipeBehind
+            if c == "." {
+                count += inside ? 1 : 0
+            } else {
+                pipeBehind.append(c)
+            }
+        }
+        return count
+    }
+    
+    
+    func crossedPipe(_ behind: String) -> Bool {
+        if behind.isEmpty {
+            return false
+        }
+        let pipeStart = behind.first!
+        let pipeEnd = behind.last!
+        if pipeEnd.right {
+            return false
+        }
+        if pipeEnd == "J" && pipeStart == "L" {
+            return false
+        }
+        if pipeEnd == "7" && pipeStart == "F" {
+            return false
+        }
+        return true
+    }
+    
+    func haveToClearPipe(_ behind: String) -> Bool {
+        if behind.isEmpty {
+            return false
+        }
+        let pipeEnd = behind.last!
+        return !pipeEnd.right
+    }
+    
 }
