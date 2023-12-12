@@ -88,7 +88,6 @@ public struct Day10Solution : DailySolution {
                 }
             }
             result.append(newLine)
-            print(newLine)
         }
         return result
     }
@@ -206,10 +205,10 @@ public struct Day10Solution : DailySolution {
         if pipeEnd.right {
             return false
         }
-        if pipeEnd == "J" && pipeStart == "L" {
+        if pipeEnd.up && pipeEnd.left && pipeStart.up && pipeStart.right {  // Moved along the pipe
             return false
         }
-        if pipeEnd == "7" && pipeStart == "F" {
+        if pipeEnd.down && pipeEnd.left && pipeStart.down && pipeStart.right {  // Moved along the pipe
             return false
         }
         return true
