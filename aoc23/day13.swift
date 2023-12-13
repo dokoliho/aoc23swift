@@ -84,7 +84,7 @@ public struct Day13Solution : DailySolution {
                             }
                         }
                         let newPattern = Pattern(lines: newLines)
-                        if let newMirrorLine = newPattern.findNewMirrorLine() {
+                        if let newMirrorLine = newPattern.mirrorLine() {
                             if oldMirrorLine != newMirrorLine {
                                 return newMirrorLine
                             }
@@ -102,7 +102,7 @@ public struct Day13Solution : DailySolution {
             }
             var result: Int? = nil
             for i in 0..<s1.count {
-                if s1[i] != s2[2] {
+                if s1[i] != s2[i] {
                     if result != nil {
                         return nil // Second Difference!
                     }

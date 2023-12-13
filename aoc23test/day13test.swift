@@ -41,9 +41,26 @@ final class day13test: XCTestCase {
         let patterns = solution.parsePuzzle(testPuzzle)
         let _ = patterns[0].mirrorLine()
         let _ = patterns[1].mirrorLine()
-
     }
 
+    
+    func testNewMirrorLine() throws {
+        let patterns = solution.parsePuzzle(testPuzzle)
+        let l1 = patterns[0].findNewMirrorLine()
+        print(l1)
+        let l2 = patterns[1].findNewMirrorLine()
+        print(l2)
+        let p0 = patterns[0].transpose()
+        let p1 = patterns[1].transpose()
+        let t0 = p0.findNewMirrorLine()
+        print(t0)
+        let t1 = p1.findNewMirrorLine()
+        print(t1)
+    }
+
+    
+    
+    
     func testTranspose() throws {
         let patterns = solution.parsePuzzle(testPuzzle)
         let p0 = patterns[0].transpose()
