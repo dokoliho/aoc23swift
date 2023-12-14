@@ -14,7 +14,8 @@ public struct Day14Solution : DailySolution {
     }
     
     func solvePart1(puzzle: [String]) -> String {
-        let field = Map(puzzle)
+        var field = Map(puzzle)
+        field.tilt()
         return String(sumLoad(field))
     }
     
@@ -27,14 +28,11 @@ public struct Day14Solution : DailySolution {
             i += 1
             field.tiltCircle()
             let currentLoad = sumLoad(field)
-            print(i, currentLoad)
             if let (step, oldField) = history[currentLoad] {
                 if oldField == field {
                     let cycleLen = i - step
-                    print("Cycle at \(i) len \(cycleLen)")
                     let remaining = target - i
                     i = target - remaining % cycleLen
-                    print("New i \(i) ")
                     history.removeAll()
                 }
             } else {
@@ -45,11 +43,7 @@ public struct Day14Solution : DailySolution {
     }
     
     func sumLoad(_ field: Map) -> Int {
-        var sum = 0
-        for col in 0..<field.width {
-            sum += field.tiltColumn(col).map{ field.loadOfRock($0)}.reduce(0, +)
-        }
-        return sum
+        return field.sumLoad()
     }
     
     
@@ -136,6 +130,16 @@ public struct Day14Solution : DailySolution {
             return rocksInColumn
         }
         
+        mutating func tilt()  {
+            var newRocks = [Rock]()
+            for col in 0..<width {
+                let rocksInColumn = tiltColumn(col)
+                newRocks += rocksInColumn
+            }
+            rocks = newRocks
+        }
+
+        
         mutating func tiltCircle() {
             for _ in 1...4 {
                 var newRocks = [Rock]()
@@ -149,6 +153,13 @@ public struct Day14Solution : DailySolution {
             }
         }
         
+        func sumLoad() -> Int {
+            var sum = 0
+            for col in 0..<width {
+                sum += column(col).map{ loadOfRock($0)}.reduce(0, +)
+            }
+            return sum
+        }
         
         func loadOfRock(_ r:Rock) -> Int {
             if r.movable {
