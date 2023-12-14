@@ -32,18 +32,18 @@ public struct Day12Solution : DailySolution {
     func solvePart2(puzzle: [String]) -> String {
         var sum = 0
         var count = 0
-        for line in puzzle {
-            if !line.isEmpty {
-                let (pattern, group) = parseLine(line: line)
-                let pattern2 = pattern + "?" + pattern + "?" + pattern + "?" + pattern + "?" + pattern
-                let group2 = group + group + group + group + group
-                sum += validSolutions(pattern: pattern2, group: group2).count
-            }
-            count += 1
-            if count % 5 == 0 {
-                print(count)
-            }
-        }
+//        for line in puzzle {
+//            if !line.isEmpty {
+//                let (pattern, group) = parseLine(line: line)
+//                let pattern2 = pattern + "?" + pattern + "?" + pattern + "?" + pattern + "?" + pattern
+//                let group2 = group + group + group + group + group
+//                sum += validSolutions(pattern: pattern2, group: group2).count
+//            }
+//            count += 1
+//            if count % 5 == 0 {
+//                print(count)
+//            }
+//        }
         return String(sum)
     }
     

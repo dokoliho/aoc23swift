@@ -81,6 +81,6 @@ final class day13test: XCTestCase {
     func testSolvePart2() throws {
         let solution = Day13Solution()
         let result = solution.solvePart2(puzzle: testPuzzle)
-        XCTAssertEqual("", result)
+        XCTAssertEqual("400", result)
     }
 }

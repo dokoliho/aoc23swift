@@ -15,20 +15,25 @@ public struct Day13Solution : DailySolution {
     
     func solvePart1(puzzle: [String]) -> String {
         let patterns = parsePuzzle(puzzle)
-        let mirrorRows = patterns.compactMap { $0.mirrorLine() }
-        let mirrorCols = patterns.map {$0.transpose()}.compactMap { $0.mirrorLine() }
+        let mirrorRows = patterns.compactMap { $0.mirrorLine() }.compactMap{$0.count > 0 ? $0[0] : nil }
+        let mirrorCols = patterns.map {$0.transpose()}.compactMap { $0.mirrorLine() }.compactMap{$0.count > 0 ? $0[0] : nil }
         let sum = mirrorCols.reduce(0, +) + 100 * mirrorRows.reduce(0, +)
         return String(sum)
     }
     
     func solvePart2(puzzle: [String]) -> String {
-        return ""
+        let patterns = parsePuzzle(puzzle)
+        let mirrorRows = patterns.compactMap { $0.findNewMirrorLine() }
+        let mirrorCols = patterns.map {$0.transpose()}.compactMap { $0.findNewMirrorLine() }
+        let sum = mirrorCols.reduce(0, +) + 100 * mirrorRows.reduce(0, +)
+        return String(sum)
     }
 
     struct Pattern {
         let lines: [String]
         
-        func mirrorLine() -> Int? {
+        func mirrorLine() -> [Int] {
+            var result = [Int]()
             let sortedLines = lines.enumerated().sorted(by: {$0.element < $1.element})
             let sameLikePred = sortedLines.dropFirst().enumerated().filter { areTheyNeighbors(num1:$0.element.offset, num2: sortedLines[$0.offset].offset) && $0.element.element == sortedLines[$0.offset].element }
             let candidatesForMirrorLine = sameLikePred.map { sortedLines[$0.offset].offset }
@@ -36,10 +41,10 @@ public struct Day13Solution : DailySolution {
             for candidate in candidatesForMirrorLine {
                 if checkLineCandidate(candidate) {
                     // print("Found \(candidate+1)")
-                    return candidate + 1
+                    result.append(candidate+1)
                 }
             }
-            return nil
+            return result
         }
     
         func areTheyNeighbors(num1: Int, num2: Int) -> Bool {
@@ -69,7 +74,7 @@ public struct Day13Solution : DailySolution {
         
         
         func findNewMirrorLine() -> Int? {
-            let oldMirrorLine = mirrorLine()
+            let oldMirrorLines = mirrorLine()
             for (i1, line1) in lines.enumerated() {
                 for i2 in i1+1..<lines.count {
                     if let pos = differAtOnePos(s1: line1, s2: lines[i2]) {
@@ -84,9 +89,9 @@ public struct Day13Solution : DailySolution {
                             }
                         }
                         let newPattern = Pattern(lines: newLines)
-                        if let newMirrorLine = newPattern.mirrorLine() {
-                            if oldMirrorLine != newMirrorLine {
-                                return newMirrorLine
+                        for mirror in newPattern.mirrorLine() {
+                            if !oldMirrorLines.contains(mirror) {
+                                return mirror
                             }
                         }
                     }
