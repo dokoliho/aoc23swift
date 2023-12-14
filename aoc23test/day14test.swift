@@ -9,27 +9,42 @@ import XCTest
 
 final class day14test: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    let testPuzzle = [
+        "O....#....",
+        "O.OO#....#",
+        ".....##...",
+        "OO.#O....O",
+        ".O.....O#.",
+        "O.#..O.#.#",
+        "..O..#O..O",
+        ".......O..",
+        "#....###..",
+        "#OO..#....",
+        "",
+    ]
+    
+    let solution = Day14Solution()
+    
+    func testMapCreation() throws {
+        let result = Day14Solution.Map(testPuzzle)
+        XCTAssertEqual(17, result.rocks.filter { $0.movable == false }.count)
+        XCTAssertEqual(18, result.rocks.filter { $0.movable == true }.count)
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func testTilt() throws {
+        let field = Day14Solution.Map(testPuzzle)
+        let col = field.tiltColumn(2)
+        let load = col.map{ field.loadOfRock($0)}.reduce(0, +)
+        XCTAssertEqual(17, load)
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+        
+    func testSolvePart1() throws {
+        let result = solution.solvePart1(puzzle: testPuzzle)
+        XCTAssertEqual("136", result)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func testSolvePart2() throws {
+        let result = solution.solvePart2(puzzle: testPuzzle)
+        XCTAssertEqual("64", result)
     }
-
 }

@@ -32,6 +32,8 @@
 		A745B4B52B2AB9FB00B81F55 /* day09.swift in Sources */ = {isa = PBXBuildFile; fileRef = A745B4962B2AB9BF00B81F55 /* day09.swift */; };
 		A745B4B62B2AB9FB00B81F55 /* day12.swift in Sources */ = {isa = PBXBuildFile; fileRef = A745B4982B2AB9BF00B81F55 /* day12.swift */; };
 		A745B4B72B2AB9FB00B81F55 /* day11.swift in Sources */ = {isa = PBXBuildFile; fileRef = A745B4972B2AB9BF00B81F55 /* day11.swift */; };
+		A76416A02B2AC4E10037D636 /* day14.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764169F2B2AC4E10037D636 /* day14.swift */; };
+		A76416A12B2AC5B20037D636 /* day14.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764169F2B2AC4E10037D636 /* day14.swift */; };
 		A7B8505A2B1DA1B30092B352 /* day04.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B850592B1DA1B30092B352 /* day04.swift */; };
 		A7B8505B2B1DA1B30092B352 /* day04.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B850592B1DA1B30092B352 /* day04.swift */; };
 		A7B8505D2B1DA1CD0092B352 /* day04test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B8505C2B1DA1CD0092B352 /* day04test.swift */; };
@@ -94,6 +96,8 @@
 		A745B4A62B2AB9E400B81F55 /* day11test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day11test.swift; sourceTree = "<group>"; };
 		A745B4A72B2AB9E400B81F55 /* day14test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day14test.swift; sourceTree = "<group>"; };
 		A745B4A82B2AB9E400B81F55 /* day10test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = day10test.swift; sourceTree = "<group>"; };
+		A764169F2B2AC4E10037D636 /* day14.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day14.swift; sourceTree = "<group>"; };
+		A76416A22B2AC7790037D636 /* day14.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day14.txt; sourceTree = "<group>"; };
 		A7B850592B1DA1B30092B352 /* day04.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day04.swift; sourceTree = "<group>"; };
 		A7B8505C2B1DA1CD0092B352 /* day04test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day04test.swift; sourceTree = "<group>"; };
 		A7B850602B1DB8AD0092B352 /* day04.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day04.txt; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 				A745B4972B2AB9BF00B81F55 /* day11.swift */,
 				A745B4982B2AB9BF00B81F55 /* day12.swift */,
 				A745B4992B2AB9BF00B81F55 /* day13.swift */,
+				A764169F2B2AC4E10037D636 /* day14.swift */,
 			);
 			path = aoc23;
 			sourceTree = "<group>";
@@ -194,6 +199,7 @@
 				A745B48D2B2AB9B000B81F55 /* day11.txt */,
 				A745B4912B2AB9B000B81F55 /* day12.txt */,
 				A745B48C2B2AB9B000B81F55 /* day13.txt */,
+				A76416A22B2AC7790037D636 /* day14.txt */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -264,7 +270,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					A7DEFD762B0FE5660068E876 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -318,6 +324,7 @@
 				A7DEFD9C2B1AFA7A0068E876 /* day02.swift in Sources */,
 				A7DEFD882B19A07E0068E876 /* day01.swift in Sources */,
 				A745B4A02B2AB9BF00B81F55 /* day13.swift in Sources */,
+				A76416A02B2AC4E10037D636 /* day14.swift in Sources */,
 				A7DEFD7B2B0FE5660068E876 /* main.swift in Sources */,
 				A7DEFD842B0FE7070068E876 /* DailySolution.swift in Sources */,
 				A745B49C2B2AB9BF00B81F55 /* day08.swift in Sources */,
@@ -341,6 +348,7 @@
 				A745B4AF2B2AB9E400B81F55 /* day14test.swift in Sources */,
 				A7DEFD962B19E3110068E876 /* day01.swift in Sources */,
 				A7DEFDA62B1C458B0068E876 /* day03test.swift in Sources */,
+				A76416A12B2AC5B20037D636 /* day14.swift in Sources */,
 				A7DEFD982B19E3190068E876 /* main.swift in Sources */,
 				A745B4B62B2AB9FB00B81F55 /* day12.swift in Sources */,
 				A7DEFD9F2B1B187A0068E876 /* day02.swift in Sources */,
@@ -372,6 +380,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -434,6 +443,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
