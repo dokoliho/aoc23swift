@@ -16,7 +16,7 @@ public struct Day14Solution : DailySolution {
     func solvePart1(puzzle: [String]) -> String {
         var field = Map(puzzle)
         field.tilt()
-        return String(sumLoad(field))
+        return String(field.load)
     }
     
     func solvePart2(puzzle: [String]) -> String {
@@ -27,25 +27,24 @@ public struct Day14Solution : DailySolution {
         while i < target {
             i += 1
             field.tiltCircle()
-            let currentLoad = sumLoad(field)
+            let currentLoad = field.load
             if let (step, oldField) = history[currentLoad] {
                 if oldField == field {
                     let cycleLen = i - step
                     let remaining = target - i
                     i = target - remaining % cycleLen
                     history.removeAll()
+
                 }
             } else {
                 history[currentLoad] = (i, field)
             }
         }
-        return String(sumLoad(field))
+        return String(field.load)
     }
     
-    func sumLoad(_ field: Map) -> Int {
-        return field.sumLoad()
-    }
     
+    // Repräsentation eines einzlnen Steins
     
     struct Rock {
         var row: Int
@@ -53,6 +52,9 @@ public struct Day14Solution : DailySolution {
         let movable: Bool
     }
 
+    
+    // Repräsentation der gesamten Karte
+    
     struct Map: CustomStringConvertible, Equatable {
         
         static func == (lhs: Day14Solution.Map, rhs: Day14Solution.Map) -> Bool {
@@ -70,17 +72,15 @@ public struct Day14Solution : DailySolution {
             return true
         }
         
-        
         var rocks = [(Rock)]()
         var height: Int = 0
         var width: Int = 0
         
         init(_ puzzle: [String]) {
-            for (row, line) in puzzle.enumerated() {
-                if !line.isEmpty {
-                    height += 1
-                    width = line.count
-                }
+            let lines = puzzle.filter { !$0.isEmpty }
+            height = lines.count
+            width = lines.first!.count
+            for (row, line) in lines.enumerated() {
                 for (col, char) in line.enumerated() {
                     if char == "O" {
                         rocks.append(Rock(row: row, col: col, movable: true))
@@ -93,6 +93,7 @@ public struct Day14Solution : DailySolution {
         }
 
         
+        // Das gesamte Feld als ausgabefähiger String
         var description: String {
             var result = ""
             for row in 0..<height {
@@ -118,7 +119,36 @@ public struct Day14Solution : DailySolution {
             rocks.filter { $0.col == col }.sorted(by: {$0.row < $1.row})
         }
         
-        func tiltColumn(_ col: Int) -> [Rock] {
+        
+        // Das gesamte Feld nach Norden tilten
+        mutating func tilt()  {
+            var newRocks = [Rock]()
+            for col in 0..<width {
+                let rocksInColumn = tiltedColumn(col)
+                newRocks += rocksInColumn
+            }
+            rocks = newRocks
+        }
+
+        
+        // Viermal nach Norden tilten und im Uhrzeigersinn drehen
+        // = Tilt nach Norden, Westen, Süden, Osten
+        mutating func tiltCircle() {
+            for _ in 1...4 {
+                var newRocks = [Rock]()
+                for col in 0..<width {
+                    let rocksInColumn = tiltedColumn(col)
+                    let transposed = rocksInColumn.map{ Rock(row: $0.col , col: height - $0.row - 1, movable: $0.movable)}
+                    newRocks += transposed
+                }
+                rocks = newRocks
+                (height, width) = (width, height)
+            }
+        }
+        
+        
+        // Alle beweglichen Steine einer Spalte nach Norden verschieben
+        func tiltedColumn(_ col: Int) -> [Rock] {
             var rocksInColumn = column(col)
             var bottom = 0
             for index in 0..<rocksInColumn.count {
@@ -129,31 +159,9 @@ public struct Day14Solution : DailySolution {
             }
             return rocksInColumn
         }
-        
-        mutating func tilt()  {
-            var newRocks = [Rock]()
-            for col in 0..<width {
-                let rocksInColumn = tiltColumn(col)
-                newRocks += rocksInColumn
-            }
-            rocks = newRocks
-        }
 
-        
-        mutating func tiltCircle() {
-            for _ in 1...4 {
-                var newRocks = [Rock]()
-                for col in 0..<width {
-                    let rocksInColumn = tiltColumn(col)
-                    let transposed = rocksInColumn.map{ Rock(row: $0.col , col: height - $0.row - 1, movable: $0.movable)}
-                    newRocks += transposed
-                }
-                rocks = newRocks
-                (height, width) = (width, height)
-            }
-        }
-        
-        func sumLoad() -> Int {
+                
+        var load: Int {
             var sum = 0
             for col in 0..<width {
                 sum += column(col).map{ loadOfRock($0)}.reduce(0, +)

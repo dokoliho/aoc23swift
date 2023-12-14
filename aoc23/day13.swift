@@ -29,18 +29,19 @@ public struct Day13Solution : DailySolution {
         return String(sum)
     }
 
+    
+    // Repräsentation eines Spielfelds
     struct Pattern {
         let lines: [String]
         
+        // Liste aller Zeilen, die als obere Spiegelzeile in Frage kommen
         func mirrorLine() -> [Int] {
             var result = [Int]()
-            let sortedLines = lines.enumerated().sorted(by: {$0.element < $1.element})
-            let sameLikePred = sortedLines.dropFirst().enumerated().filter { areTheyNeighbors(num1:$0.element.offset, num2: sortedLines[$0.offset].offset) && $0.element.element == sortedLines[$0.offset].element }
-            let candidatesForMirrorLine = sameLikePred.map { sortedLines[$0.offset].offset }
-            // print(candidatesForMirrorLine)
+            let sortedLines = lines.enumerated().sorted(by: {$0.element < $1.element})  // Aufsteigende Sortierung der Zeilen
+            let sameLikePred = sortedLines.dropFirst().enumerated().filter { areTheyNeighbors(num1:$0.element.offset, num2: sortedLines[$0.offset].offset) && $0.element.element == sortedLines[$0.offset].element } // Ermitteln von Pärchen, die nebeneinanderliegend gleich sind
+            let candidatesForMirrorLine = sameLikePred.map { sortedLines[$0.offset].offset } // die mit der kleineren Zeilennummer ist ein Kandidat
             for candidate in candidatesForMirrorLine {
-                if checkLineCandidate(candidate) {
-                    // print("Found \(candidate+1)")
+                if checkLineCandidate(candidate) {  // Überprüfen, ob die übrigen Zeilen auch "spiegeln"
                     result.append(candidate+1)
                 }
             }
@@ -51,6 +52,7 @@ public struct Day13Solution : DailySolution {
             return abs(num1 - num2) == 1
         }
         
+        // Ausgehend von der Spiegelzeile werden paarweise alle anderen Zeilen im Feld überprüft, bis der Rand erreicht ist
         func checkLineCandidate(_ candidate: Int) -> Bool {
             var offset = 0
             repeat {
@@ -63,6 +65,7 @@ public struct Day13Solution : DailySolution {
             return true
         }
         
+        // Drehen des Spielfelds um 90%
         func transpose() -> Pattern {
             var newLines = [String]()
             for i in 0..<lines[0].count {
@@ -72,7 +75,7 @@ public struct Day13Solution : DailySolution {
             return Pattern(lines: newLines)
         }
         
-        
+        // Auffinden der einen neuen Spiegelzeile, die durch Kippen eines Elements entsteht
         func findNewMirrorLine() -> Int? {
             let oldMirrorLines = mirrorLine()
             for (i1, line1) in lines.enumerated() {

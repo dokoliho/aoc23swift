@@ -39,36 +39,50 @@ final class day13test: XCTestCase {
 
     func testMirrorLine() throws {
         let patterns = solution.parsePuzzle(testPuzzle)
-        let _ = patterns[0].mirrorLine()
-        let _ = patterns[1].mirrorLine()
+        let l0 = patterns[0].mirrorLine()
+        XCTAssertEqual(0, l0.count)
+
+        let l1 = patterns[1].mirrorLine()
+        XCTAssertEqual(4, l1[0] )
+
     }
 
-    
-    func testNewMirrorLine() throws {
-        let patterns = solution.parsePuzzle(testPuzzle)
-        let l1 = patterns[0].findNewMirrorLine()
-        print(l1)
-        let l2 = patterns[1].findNewMirrorLine()
-        print(l2)
-        let p0 = patterns[0].transpose()
-        let p1 = patterns[1].transpose()
-        let t0 = p0.findNewMirrorLine()
-        print(t0)
-        let t1 = p1.findNewMirrorLine()
-        print(t1)
-    }
-
-    
-    
     
     func testTranspose() throws {
         let patterns = solution.parsePuzzle(testPuzzle)
         let p0 = patterns[0].transpose()
         let p1 = patterns[1].transpose()
-        let _ = p0.mirrorLine()
-        let _ = p1.mirrorLine()
+        
+        let l0 = p0.mirrorLine()
+        XCTAssertEqual(5, l0[0] )
+
+        let l1 = p1.mirrorLine()
+        XCTAssertEqual(0, l1.count)
 
     }
+
+    
+    func testNewMirrorLine() throws {
+        let patterns = solution.parsePuzzle(testPuzzle)
+        
+        let l0 = patterns[0].findNewMirrorLine()
+        XCTAssertEqual(3, l0 ?? -1)
+        
+        let l1 = patterns[1].findNewMirrorLine()
+        XCTAssertEqual(1, l1 ?? -1)
+
+        let p0 = patterns[0].transpose()
+        let p1 = patterns[1].transpose()
+
+        let t0 = p0.findNewMirrorLine()
+        XCTAssertEqual(nil, t0)
+        
+        let t1 = p1.findNewMirrorLine()
+        XCTAssertEqual(nil, t1)
+        
+    }
+
+    
 
     
     

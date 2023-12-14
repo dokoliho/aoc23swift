@@ -31,13 +31,19 @@ final class day14test: XCTestCase {
         XCTAssertEqual(18, result.rocks.filter { $0.movable == true }.count)
     }
     
-    func testTilt() throws {
+    func testTiltColumn() throws {
         let field = Day14Solution.Map(testPuzzle)
-        let col = field.tiltColumn(2)
+        let col = field.tiltedColumn(2)
         let load = col.map{ field.loadOfRock($0)}.reduce(0, +)
         XCTAssertEqual(17, load)
     }
         
+    func testLoad() throws {
+        XCTAssertEqual(4, Day14Solution.Map(["OO", ".."]).load)
+        XCTAssertEqual(3, Day14Solution.Map(["O.", ".O"]).load)
+        XCTAssertEqual(0, Day14Solution.Map(["##", ".."]).load)
+    }
+    
     func testSolvePart1() throws {
         let result = solution.solvePart1(puzzle: testPuzzle)
         XCTAssertEqual("136", result)
