@@ -27,8 +27,8 @@ func readPuzzleFrom(filename: String) -> [String] {
 
 
 
-let currentPuzzle = readPuzzleFrom(filename: "tim15.txt")
-let solution = Day15Solution()
+let currentPuzzle = readPuzzleFrom(filename: "tim16.txt")
+let solution = Day16Solution()
 
 
 runWithTimeControl(title: "Teil1", data: currentPuzzle, operation: solution.solvePart1)
