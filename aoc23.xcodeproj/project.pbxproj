@@ -45,6 +45,7 @@
 		A76416B42B2EB44D0037D636 /* day17.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76416B32B2EB44D0037D636 /* day17.swift */; };
 		A76416B52B2EB44D0037D636 /* day17.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76416B32B2EB44D0037D636 /* day17.swift */; };
 		A76416B72B2EB46B0037D636 /* day17test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76416B62B2EB46B0037D636 /* day17test.swift */; };
+		A76416B92B2EBA040037D636 /* day17.txt in Resources */ = {isa = PBXBuildFile; fileRef = A76416B82B2EBA040037D636 /* day17.txt */; };
 		A7B8505A2B1DA1B30092B352 /* day04.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B850592B1DA1B30092B352 /* day04.swift */; };
 		A7B8505B2B1DA1B30092B352 /* day04.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B850592B1DA1B30092B352 /* day04.swift */; };
 		A7B8505D2B1DA1CD0092B352 /* day04test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B8505C2B1DA1CD0092B352 /* day04test.swift */; };
@@ -117,6 +118,7 @@
 		A76416B02B2D8A470037D636 /* day16.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day16.txt; sourceTree = "<group>"; };
 		A76416B32B2EB44D0037D636 /* day17.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day17.swift; sourceTree = "<group>"; };
 		A76416B62B2EB46B0037D636 /* day17test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day17test.swift; sourceTree = "<group>"; };
+		A76416B82B2EBA040037D636 /* day17.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day17.txt; sourceTree = "<group>"; };
 		A7B850592B1DA1B30092B352 /* day04.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day04.swift; sourceTree = "<group>"; };
 		A7B8505C2B1DA1CD0092B352 /* day04test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day04test.swift; sourceTree = "<group>"; };
 		A7B850602B1DB8AD0092B352 /* day04.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day04.txt; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				A76416A22B2AC7790037D636 /* day14.txt */,
 				A76416A92B2C16250037D636 /* day15.txt */,
 				A76416B02B2D8A470037D636 /* day16.txt */,
+				A76416B82B2EBA040037D636 /* day17.txt */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7B850612B1DB8AD0092B352 /* day04.txt in Resources */,
+				A76416B92B2EBA040037D636 /* day17.txt in Resources */,
 				A76416B12B2D8A470037D636 /* day16.txt in Resources */,
 				A76416AA2B2C16250037D636 /* day15.txt in Resources */,
 			);
