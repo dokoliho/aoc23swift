@@ -27,7 +27,7 @@ func readPuzzleFrom(filename: String) -> [String] {
 
 
 
-let currentPuzzle = readPuzzleFrom(filename: "day17.txt")
+let currentPuzzle = readPuzzleFrom(filename: "tim17.txt")
 let solution = Day17Solution()
 
 
