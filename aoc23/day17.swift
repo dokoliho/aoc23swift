@@ -34,18 +34,28 @@ public struct Day17Solution : DailySolution {
     
     
     func bfs(panel: Panel, start: Position, destination: Position) -> Int? {
-        var distances = [Movement: Int]()
+//        var distances = [Movement: Int]()
         var predecessor = [Movement: Movement]()
-        var frontier = Set<(Movement)>()
+//        var frontier = Set<(Movement)>()
+        
+        var heap = MinHeap()
+        
         let startMovement1 = Movement(pos:start, horizontal: true)
         let startMovement2 = Movement(pos:start, horizontal: false)
-        distances[startMovement1] = 0
-        distances[startMovement2] = 0
-        frontier.insert(startMovement1)
-        frontier.insert(startMovement2)
-        while !frontier.isEmpty {
-            let movement = frontier.sorted(by: {distances[$0]! < distances[$1]!}).first!
-            frontier.remove(movement)
+
+        heap.insertOrUpdate(movement: startMovement1, dist: 0)
+        heap.insertOrUpdate(movement: startMovement2, dist: 0)
+
+  //      distances[startMovement1] = 0
+  //      distances[startMovement2] = 0
+  //      frontier.insert(startMovement1)
+  //      frontier.insert(startMovement2)
+        
+//        while !frontier.isEmpty {
+        while !heap.isEmpty {
+//            let movement = frontier.sorted(by: {distances[$0]! < distances[$1]!}).first!
+            let movement = heap.removeFirst()!
+//            frontier.remove(movement)
             if movement.pos == destination {
                 var current: Movement? = movement
                 var path = [Movement]()
@@ -55,16 +65,15 @@ public struct Day17Solution : DailySolution {
                 }
                 path = path.reversed()
                 for mov in path {
-                    print("\(mov): \(distances[mov]!)")
+                    print("\(mov): \(heap.distances[mov]!)")
                 }
-                return distances[movement]!
+                return heap.distances[movement]!
             }
             for newMovement in panel.connected(to: movement ) {
-                let lengthNewPath = distances[movement]! + panel.heatLoss(from: movement.pos, to: newMovement.pos)
-                if distances[newMovement] ?? Int.max > lengthNewPath {
-                    distances[newMovement] = lengthNewPath
+                let lengthNewPath = heap.distances[movement]! + panel.heatLoss(from: movement.pos, to: newMovement.pos)
+                if heap.distanceOrMax(newMovement) > lengthNewPath {
+                    heap.insertOrUpdate(movement: newMovement, dist: lengthNewPath)
                     predecessor[newMovement] = movement
-                    frontier.insert(newMovement)
                 }
             }
         }
@@ -114,10 +123,10 @@ public struct Day17Solution : DailySolution {
             width = maxColCount
         }
         
-        func connected(to movement: Movement) -> [Movement] {
+        func connected(to movement: Movement, range: ClosedRange<Int> = (1...3)) -> [Movement] {
             let vectors = movement.horizontal ? [(1, 0), (-1, 0)] : [(0, 1), (0, -1)]
             var result = [Movement]()
-            for factor in 1...3 {
+            for factor in range {
                 for vec in vectors {
                     let newPos = Position(row: movement.pos.row + factor * vec.0, col: movement.pos.col + factor * vec.1)
                     if cells.keys.contains(newPos) {
@@ -161,21 +170,23 @@ public struct Day17Solution : DailySolution {
     struct MinHeap {
         
         var movements = [Movement]()
-        var distances : [Movement: Int]
-        
-        init(_ dis: [Movement: Int]) {
-            distances = dis
-        }
+        var distances = [Movement: Int]()
+        var uniqueMovements = Set<Movement>()
         
         var minElement: Movement? {
             return movements.first
         }
         
-        mutating func removeFirst() throws -> Movement {
+        var isEmpty: Bool {
+            return movements.isEmpty
+        }
+        
+        mutating func removeFirst() -> Movement? {
             if movements.isEmpty {
-                throw AoCError.heapUnderrun
+                return nil
             }
             let result = movements.first!
+            uniqueMovements.remove(result)
             movements[0] = movements.last!
             movements.removeLast()
             minHeapify(index: 1)
@@ -187,41 +198,50 @@ public struct Day17Solution : DailySolution {
             let right = index * 2 + 1
             
             var minIndex = index
-            if left < movements.count && distanceOrMax(movements[left]) < distanceOrMax(movements[minIndex]) {
+            if left < movements.count && distanceOrMax(movements[left-1]) < distanceOrMax(movements[minIndex-1]) {
                 minIndex = left
             }
-            if right < movements.count && distanceOrMax(movements[right]) < distanceOrMax(movements[minIndex]) {
+            if right < movements.count && distanceOrMax(movements[right-1]) < distanceOrMax(movements[minIndex-1]) {
                 minIndex = right
             }
             if minIndex != index {
-                movements.swapAt(index, minIndex)
+                movements.swapAt(index-1, minIndex-1)
                 minHeapify(index: minIndex)
             }
         }
         
         mutating func decreaseDistance(index: Int, newDistance: Int) throws {
-            if distanceOrMax(movements[index]) < newDistance {
+            if distanceOrMax(movements[index-1]) < newDistance {
                 throw AoCError.runtimeError("New distance larger than old distance")
             }
-            distances[movements[index]] = newDistance
+            distances[movements[index-1]] = newDistance
             var i = index
             repeat {
-                if i <= 0 {
+                if i <= 1 {
                     break
                 }
                 let parent = i / 2
-                if distances[movements[i]]! >=  distances[movements[parent]]! {
+                if distances[movements[i-1]]! >=  distances[movements[parent-1]]! {
                     break
                 }
-                movements.swapAt(i, parent)
+                movements.swapAt(i-1, parent-1)
                 i = parent
             } while true
         }
         
         
-        mutating func insert(movement: Movement, dist: Int) throws {
-            movements.append(movement)
-            try? decreaseDistance(index: movements.count-1, newDistance: dist)
+        mutating func insertOrUpdate(movement: Movement, dist: Int)  {
+            if uniqueMovements.contains(movement) {
+                for (idx, mov) in movements.enumerated() {
+                    if mov == movement {
+                        try? decreaseDistance(index: idx+1, newDistance: dist)
+                    }
+                }
+            } else {
+                movements.append(movement)
+                uniqueMovements.insert(movement)
+                try? decreaseDistance(index: movements.count, newDistance: dist)
+            }
         }
 
         
