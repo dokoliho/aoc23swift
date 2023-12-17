@@ -33,10 +33,8 @@ public struct Day17Solution : DailySolution {
     }
     
     
-    func bfs(panel: Panel, start: Position, destination: Position) -> Int? {
-//        var distances = [Movement: Int]()
+    func bfs(panel: Panel, start: Position, destination: Position, range: ClosedRange<Int> = (1...3)) -> Int? {
         var predecessor = [Movement: Movement]()
-//        var frontier = Set<(Movement)>()
         
         var heap = MinHeap()
         
@@ -46,16 +44,8 @@ public struct Day17Solution : DailySolution {
         heap.insertOrUpdate(movement: startMovement1, dist: 0)
         heap.insertOrUpdate(movement: startMovement2, dist: 0)
 
-  //      distances[startMovement1] = 0
-  //      distances[startMovement2] = 0
-  //      frontier.insert(startMovement1)
-  //      frontier.insert(startMovement2)
-        
-//        while !frontier.isEmpty {
         while !heap.isEmpty {
-//            let movement = frontier.sorted(by: {distances[$0]! < distances[$1]!}).first!
             let movement = heap.removeFirst()!
-//            frontier.remove(movement)
             if movement.pos == destination {
                 var current: Movement? = movement
                 var path = [Movement]()
@@ -69,7 +59,7 @@ public struct Day17Solution : DailySolution {
                 }
                 return heap.distances[movement]!
             }
-            for newMovement in panel.connected(to: movement ) {
+            for newMovement in panel.connected(to: movement, range: range ) {
                 let lengthNewPath = heap.distances[movement]! + panel.heatLoss(from: movement.pos, to: newMovement.pos)
                 if heap.distanceOrMax(newMovement) > lengthNewPath {
                     heap.insertOrUpdate(movement: newMovement, dist: lengthNewPath)
