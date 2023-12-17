@@ -15,78 +15,66 @@ public struct Day12Solution : DailySolution {
     
     func solvePart1(puzzle: [String]) -> String {
         var sum = 0
-        var count = 0
+        Day12Solution.cache.removeAll()
         for line in puzzle {
             if !line.isEmpty {
-                let (pattern, group) = parseLine(line: line)
-                sum += validSolutions(pattern: pattern, group: group).count
-            }
-            count += 1
-            if count % 50 == 0 {
-                print(count)
+                let (pattern, groups) = parseLine(line: line)
+                sum += countArrangements(pattern: pattern, groups: groups)
             }
         }
         return String(sum)
     }
     
     func solvePart2(puzzle: [String]) -> String {
-//        var sum = 0
-//        var count = 0
-//        for line in puzzle {
-//            if !line.isEmpty {
-//                let (pattern, group) = parseLine(line: line)
-//                let pattern2 = pattern + "?" + pattern + "?" + pattern + "?" + pattern + "?" + pattern
-//                let group2 = group + group + group + group + group
-//                sum += validSolutions(pattern: pattern2, group: group2).count
-//            }
-//            count += 1
-//            if count % 5 == 0 {
-//                print(count)
-//            }
-//        }
-//        return String(sum)
-          return ""
-    }
-    
-    func grouping(_ line: String) -> [Int] {
-        var result = [Int]()
-        var currentCount = 0
-        for c in line {
-            if c == "#" {
-                currentCount += 1
-            } else {
-                if currentCount > 0 {
-                    result.append(currentCount)
-                    currentCount = 0
-                }
+        var sum = 0
+        Day12Solution.cache.removeAll()
+        for line in puzzle {
+            if !line.isEmpty {
+                let (pattern, groups) = parseLine(line: line)
+                let newPattern =  Array(repeating: String(pattern), count: 5).joined(separator: "?")
+                let newGroups = Array(repeating: groups, count: 5).flatMap { $0 }
+                sum += countArrangements(pattern: newPattern, groups: newGroups)
             }
         }
-        if currentCount > 0 {
-            result.append(currentCount)
-        }
-        return result
+        return String(sum)
     }
+
     
+    static var cache = [String: Int]()
     
-    func validSolutions(pattern: String, group: [Int]) -> [String] {
-        let part = pattern.components(separatedBy: "?")[0]
-        var partGroup = grouping(part)
-        if part.last == "#" {
-            partGroup.removeLast()
+    func countArrangements(pattern: String, groups: [Int]) -> Int {
+        
+        let key = pattern + ":" + groups.map {  String($0) }.joined(separator: ":")
+        if  let result = Day12Solution.cache[key] {
+            return result
         }
-        if partGroup.count > group.count {
-            return []
+        
+        if pattern.isEmpty {                                // Keine Mustervorgabe mehr...
+            return groups.count == 0 ? 1 : 0                // geht nur, wenn keine Gruppen mehr kommen
         }
-        for (i, n) in partGroup.enumerated() {
-            if n != group[i] { return [] }
+        
+        if groups.count == 0 {                              // Keine Gruppen mehr...
+            return pattern.contains("#") ? 0 : 1            // geht nur, wenn im Restpattern kein # vorkommt
         }
-        if let range = pattern.range(of: "\\?", options: .regularExpression) {
-            let s1  = pattern.replacingCharacters(in: range, with: "#")
-            let s2  = pattern.replacingCharacters(in: range, with: ".")
-            return validSolutions(pattern: s1, group: group) + validSolutions(pattern: s2, group: group)
-        } else {
-            return grouping(pattern) == group ? [pattern] : []
+        
+        var result = 0
+        
+        if ".?".contains(pattern.first!) {                  // Falls das nächste Zeichen im Pattern potenziel ein Trenner
+            result += countArrangements(pattern: String(pattern.dropFirst()), groups: groups)
         }
+        
+        if let firstChar = pattern.first, "#?".contains(firstChar) {                // Falls potenziel ein Block beginnt
+            if groups.first! <= pattern.count,                                      // genug Zeichen übrig?
+               !pattern.prefix(groups.first!).contains("."),                        // Kein Trenner in Sicht
+               (groups.first! == pattern.count || pattern[groups.first!] != "#") {  // Danach kommt aber ein Trenner
+                let remainingGroups = Array(groups.dropFirst())                     // Zeichen und Gruppe entfernen
+                result += countArrangements(pattern: String(pattern.dropFirst(groups.first! + 1)), groups: remainingGroups)
+            }
+        }
+
+        Day12Solution.cache[key] = result
+        
+        return result
     }
     
     
