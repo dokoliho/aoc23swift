@@ -25,7 +25,11 @@ public struct Day17Solution : DailySolution {
     
     
     func solvePart2(puzzle: [String]) -> String {
-        return ""
+        let panel = createPanel(lines: puzzle)
+        let start = Position(row: 0, col: 0)
+        let destination = Position(row: panel.height-1, col: panel.width-1)
+        let distance = bfs(panel: panel, start: start, destination: destination, range: (4...10)) ?? Int.max
+        return String(distance)
     }
     
     func createPanel(lines: [String]) -> Panel {
@@ -47,16 +51,6 @@ public struct Day17Solution : DailySolution {
         while !heap.isEmpty {
             let movement = heap.removeFirst()!
             if movement.pos == destination {
-                var current: Movement? = movement
-                var path = [Movement]()
-                while let v = current {
-                    path.append(v)
-                    current = predecessor[v]
-                }
-                path = path.reversed()
-                for mov in path {
-                    print("\(mov): \(heap.distances[mov]!)")
-                }
                 return heap.distances[movement]!
             }
             for newMovement in panel.connected(to: movement, range: range ) {
@@ -161,7 +155,7 @@ public struct Day17Solution : DailySolution {
         
         var movements = [Movement]()
         var distances = [Movement: Int]()
-        var uniqueMovements = Set<Movement>()
+        var indices = [Movement: Int]()
         
         var minElement: Movement? {
             return movements.first
@@ -176,9 +170,10 @@ public struct Day17Solution : DailySolution {
                 return nil
             }
             let result = movements.first!
-            uniqueMovements.remove(result)
+            indices.removeValue(forKey: result)
             movements[0] = movements.last!
             movements.removeLast()
+            indices[movements[0]] = 1
             minHeapify(index: 1)
             return result
         }
@@ -195,6 +190,8 @@ public struct Day17Solution : DailySolution {
                 minIndex = right
             }
             if minIndex != index {
+                indices[movements[index-1]] = minIndex
+                indices[movements[minIndex-1]] = index
                 movements.swapAt(index-1, minIndex-1)
                 minHeapify(index: minIndex)
             }
@@ -214,6 +211,8 @@ public struct Day17Solution : DailySolution {
                 if distances[movements[i-1]]! >=  distances[movements[parent-1]]! {
                     break
                 }
+                indices[movements[i-1]] = parent
+                indices[movements[parent-1]] = i
                 movements.swapAt(i-1, parent-1)
                 i = parent
             } while true
@@ -221,15 +220,11 @@ public struct Day17Solution : DailySolution {
         
         
         mutating func insertOrUpdate(movement: Movement, dist: Int)  {
-            if uniqueMovements.contains(movement) {
-                for (idx, mov) in movements.enumerated() {
-                    if mov == movement {
-                        try? decreaseDistance(index: idx+1, newDistance: dist)
-                    }
-                }
+            if let index = indices[movement] {
+                try? decreaseDistance(index: index, newDistance: dist)
             } else {
                 movements.append(movement)
-                uniqueMovements.insert(movement)
+                indices[movement] = movements.count
                 try? decreaseDistance(index: movements.count, newDistance: dist)
             }
         }
