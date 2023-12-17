@@ -30,8 +30,8 @@ public struct Day12Solution : DailySolution {
     }
     
     func solvePart2(puzzle: [String]) -> String {
-        var sum = 0
-        var count = 0
+//        var sum = 0
+//        var count = 0
 //        for line in puzzle {
 //            if !line.isEmpty {
 //                let (pattern, group) = parseLine(line: line)
@@ -44,7 +44,8 @@ public struct Day12Solution : DailySolution {
 //                print(count)
 //            }
 //        }
-        return String(sum)
+//        return String(sum)
+          return ""
     }
     
     func grouping(_ line: String) -> [Int] {
