@@ -36,7 +36,27 @@ final class day20test: XCTestCase {
         let result = solution.parse(lines: testPuzzle1)
         XCTAssertEqual(5, result.count)
     }
-
+    
+    
+    func testComplexPuzzle() throws {
+        let map = solution.parse(lines: testPuzzle2)
+        MachineModule.reset()
+        MachineModule.push(map: map)
+        XCTAssertEqual(4, MachineModule.countLowPulses)
+        XCTAssertEqual(4, MachineModule.countHighPulses)
+        MachineModule.reset()
+        MachineModule.push(map: map)
+        XCTAssertEqual(4, MachineModule.countLowPulses)
+        XCTAssertEqual(2, MachineModule.countHighPulses)
+        MachineModule.reset()
+        MachineModule.push(map: map)
+        XCTAssertEqual(5, MachineModule.countLowPulses)
+        XCTAssertEqual(3, MachineModule.countHighPulses)
+        MachineModule.reset()
+        MachineModule.push(map: map)
+        XCTAssertEqual(4, MachineModule.countLowPulses)
+        XCTAssertEqual(2, MachineModule.countHighPulses)
+    }
     
     
     func testSolvePart1() throws {
