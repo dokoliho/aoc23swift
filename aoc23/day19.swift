@@ -22,7 +22,7 @@ public struct Day19Solution : DailySolution {
     
     
     func solvePart2(puzzle: [String]) -> String {
-        let (automata, parts) = parse(lines: puzzle)
+        let (automata, _) = parse(lines: puzzle)
         let result = automata.reduce(arriving: Day19Solution.MultiRange.startPartRange)
         return String(MultiRange.combinations(result))
     }
