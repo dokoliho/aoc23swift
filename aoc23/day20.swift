@@ -19,8 +19,8 @@ public struct Day20Solution : DailySolution {
     func solvePart1(puzzle: [String]) -> String {
         let map = parse(lines: puzzle)
         reset()
-        for _ in 1...1000 {
-            MachineModule.push(map: map)
+        while MachineModule.countPushes < 1000 {
+            var _ = MachineModule.push(map: map)
         }
         print(lowPulses, highPulses)
         return String(lowPulses * highPulses)
@@ -28,11 +28,17 @@ public struct Day20Solution : DailySolution {
     
     
     func solvePart2(puzzle: [String]) -> String {
-        return ""
-    }
+        let map = parse(lines: puzzle, part2: true)
+        reset()
+        var result: Int? = nil;
+        while result == nil {
+            result = MachineModule.push(map: map)
+        }
+        return String(result!)
+   }
     
     
-    func parse(lines: [String]) -> [String: MachineModule] {
+    func parse(lines: [String], part2: Bool = false) -> [String: MachineModule] {
         var result = [String: MachineModule]()
         for line in lines.filter({ !$0.isEmpty }) {
             //      "%a -> inv, con",
@@ -55,7 +61,7 @@ public struct Day20Solution : DailySolution {
             }
         }
         for module in result.values {
-            module.setConnections(map: result)
+            module.setConnections(map: result, part2)
         }
         return result
     }
@@ -97,7 +103,7 @@ class MachineModule {
     }
     
     
-    static func push(map: [String: MachineModule]) {
+    static func push(map: [String: MachineModule]) -> Int? {
         // print ("********** PUSH ************")
         MachineModule.countPushes += 1
         if let broadcaster = map["broadcaster"] {
@@ -109,11 +115,14 @@ class MachineModule {
                 } else {
                     MachineModule.countHighPulses += 1
                 }
-                currentTrigger.receiver.gotTriggered(from: currentTrigger.sender, with: currentTrigger.state)
+                if let result = currentTrigger.receiver.gotTriggered(from: currentTrigger.sender, with: currentTrigger.state) {
+                    return result
+                }
             }
         } else {
             print("No broadcaster")
         }
+        return nil
     }
     
     
@@ -129,20 +138,19 @@ class MachineModule {
     }
 
 
-    func gotTriggered(from sender: String, with state : ModuleState)  {
+    func gotTriggered(from sender: String, with state : ModuleState) -> Int? {
         // print(sender + " -" + (state==ModuleState.low ? "low" : "high") + "-> " + name)
+        return nil
     }
     
     
     func gotConnected(from sender: String) {}
     
-    func setConnections(map: [String: MachineModule]) {
+    func setConnections(map: [String: MachineModule], _ part2: Bool = false) {
         for name in self.connections {
             if let module = map[name] {
                 self.connectedTo.append(module)
                 module.gotConnected(from: self.name)
-            } else if name == "rx" {
-                self.connectedTo.append(RX(id: "rx", connectString: ""))
             } else {
                 self.connectedTo.append(MachineModule.sink)
             }
@@ -165,9 +173,10 @@ struct Notification {
 
 class Broadcaster : MachineModule {
 
-    override func gotTriggered(from sender: String, with state : ModuleState)  {
-        super.gotTriggered(from: sender, with: state)
+    override func gotTriggered(from sender: String, with state : ModuleState) -> Int? {
+        var _ = super.gotTriggered(from: sender, with: state)
         notifyAll(with: state)
+        return nil
     }
         
 }
@@ -177,12 +186,13 @@ class FlipFlop : MachineModule {
 
     var isOn: Bool = false
     
-    override func gotTriggered(from sender: String, with state : ModuleState)  {
-        super.gotTriggered(from: sender, with: state)
+    override func gotTriggered(from sender: String, with state : ModuleState) -> Int?  {
+        var _ = super.gotTriggered(from: sender, with: state)
         if state == ModuleState.low {
             isOn = !isOn
             notifyAll(with: isOn ? ModuleState.high : ModuleState.low)
         }
+        return nil
     }
 }
 
@@ -190,27 +200,41 @@ class FlipFlop : MachineModule {
 class Conjunction : MachineModule {
 
     var storedStates: [String: ModuleState] = [:]
+    var highCycles: [String: [Int]] = [:]
 
     override func gotConnected(from sender: String) {
         storedStates[sender] = ModuleState.low
+        highCycles[sender] = []
     }
     
-    override func gotTriggered(from sender: String, with state : ModuleState)  {
-        super.gotTriggered(from: sender, with: state)
+    override func gotTriggered(from sender: String, with state : ModuleState) -> Int?  {
+        var _ = super.gotTriggered(from: sender, with: state)
         storedStates[sender] = state
         let allHigh = storedStates.values.map{ $0 == ModuleState.high}.reduce(true, { a, c in a && c })
         notifyAll(with: allHigh ? ModuleState.low : ModuleState.high)
+        
+        // part 2
+        // rx has only 1 input: lx
+        // lx is a conjunction, i.e.: low will be emmited when all inputs high
+        // code below checks, when inputs become high
+        // After 3 repeating cycles each: guess - no offset, result is kgV of single cycle lengths
+        if name == "lx" {
+            if state == ModuleState.high {
+                highCycles[sender]?.append(MachineModule.countPushes)
+                if highCycles.values.map({ $0.count}).reduce(true, {a, c in a && c>3}) {
+                    var kgvInput = [Int]()
+                    for s in highCycles.keys {
+                        let cycles = zip(highCycles[s]!, highCycles[s]!.dropFirst()).map { $0.1 - $0.0 }
+                        print(s + ": " + String(highCycles[s]!.first!) + ":" + cycles.map{String($0)}.joined(separator: "-"))
+                        kgvInput.append(highCycles[s]!.first!)
+                    }
+                    let result = kgvInput.reduce(1, {a, c in Day08Solution.kgV(v1: a, v2: c)})
+                    return result
+                }
+            }
+        }
+        return nil
     }
         
 }
 
-class RX : MachineModule {
-    
-    override func gotTriggered(from sender: String, with state : ModuleState)  {
-        super.gotTriggered(from: sender, with: state)
-        if state == ModuleState.low {
-            print("Hallo")
-        }
-    }
-    
-}

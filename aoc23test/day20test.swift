@@ -41,19 +41,19 @@ final class day20test: XCTestCase {
     func testComplexPuzzle() throws {
         let map = solution.parse(lines: testPuzzle2)
         MachineModule.reset()
-        MachineModule.push(map: map)
+        var _ = MachineModule.push(map: map)
         XCTAssertEqual(4, MachineModule.countLowPulses)
         XCTAssertEqual(4, MachineModule.countHighPulses)
         MachineModule.reset()
-        MachineModule.push(map: map)
+        var _ = MachineModule.push(map: map)
         XCTAssertEqual(4, MachineModule.countLowPulses)
         XCTAssertEqual(2, MachineModule.countHighPulses)
         MachineModule.reset()
-        MachineModule.push(map: map)
+        var _ = MachineModule.push(map: map)
         XCTAssertEqual(5, MachineModule.countLowPulses)
         XCTAssertEqual(3, MachineModule.countHighPulses)
         MachineModule.reset()
-        MachineModule.push(map: map)
+        var _ = MachineModule.push(map: map)
         XCTAssertEqual(4, MachineModule.countLowPulses)
         XCTAssertEqual(2, MachineModule.countHighPulses)
     }
@@ -67,9 +67,5 @@ final class day20test: XCTestCase {
 
     }
     
-    func testSolvePart2() throws {
-        let result = solution.solvePart2(puzzle: testPuzzle1)
-        XCTAssertEqual("", result)
-    }
     
 }
