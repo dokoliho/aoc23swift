@@ -56,6 +56,9 @@
 		A7C341922B300C4000EA310A /* day18.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C341912B300C4000EA310A /* day18.swift */; };
 		A7C341942B300C9600EA310A /* day18test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C341932B300C9600EA310A /* day18test.swift */; };
 		A7C341952B300CA300EA310A /* day18.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C341912B300C4000EA310A /* day18.swift */; };
+		A7C341982B316D1100EA310A /* day19.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C341972B316D1100EA310A /* day19.swift */; };
+		A7C341992B316D1100EA310A /* day19.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C341972B316D1100EA310A /* day19.swift */; };
+		A7C3419B2B316D2C00EA310A /* day19test.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C3419A2B316D2C00EA310A /* day19test.swift */; };
 		A7DEFD7B2B0FE5660068E876 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD7A2B0FE5660068E876 /* main.swift */; };
 		A7DEFD822B0FE5F10068E876 /* day00.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD812B0FE5F10068E876 /* day00.swift */; };
 		A7DEFD842B0FE7070068E876 /* DailySolution.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7DEFD832B0FE7070068E876 /* DailySolution.swift */; };
@@ -131,6 +134,8 @@
 		A7C341912B300C4000EA310A /* day18.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day18.swift; sourceTree = "<group>"; };
 		A7C341932B300C9600EA310A /* day18test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day18test.swift; sourceTree = "<group>"; };
 		A7C341962B300D9900EA310A /* day18.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = day18.txt; sourceTree = "<group>"; };
+		A7C341972B316D1100EA310A /* day19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day19.swift; sourceTree = "<group>"; };
+		A7C3419A2B316D2C00EA310A /* day19test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day19test.swift; sourceTree = "<group>"; };
 		A7DEFD772B0FE5660068E876 /* aoc23 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = aoc23; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7DEFD7A2B0FE5660068E876 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		A7DEFD812B0FE5F10068E876 /* day00.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = day00.swift; sourceTree = "<group>"; };
@@ -209,6 +214,7 @@
 				A76416AB2B2D77540037D636 /* day16.swift */,
 				A76416B32B2EB44D0037D636 /* day17.swift */,
 				A7C341912B300C4000EA310A /* day18.swift */,
+				A7C341972B316D1100EA310A /* day19.swift */,
 			);
 			path = aoc23;
 			sourceTree = "<group>";
@@ -260,6 +266,7 @@
 				A76416AE2B2D77CF0037D636 /* day16test.swift */,
 				A76416B62B2EB46B0037D636 /* day17test.swift */,
 				A7C341932B300C9600EA310A /* day18test.swift */,
+				A7C3419A2B316D2C00EA310A /* day19test.swift */,
 			);
 			path = aoc23test;
 			sourceTree = "<group>";
@@ -373,6 +380,7 @@
 				A745B49C2B2AB9BF00B81F55 /* day08.swift in Sources */,
 				A745B49F2B2AB9BF00B81F55 /* day12.swift in Sources */,
 				A76416A52B2C138C0037D636 /* day15.swift in Sources */,
+				A7C341982B316D1100EA310A /* day19.swift in Sources */,
 				A745B49B2B2AB9BF00B81F55 /* day07.swift in Sources */,
 				A76416B42B2EB44D0037D636 /* day17.swift in Sources */,
 				A76416AC2B2D77540037D636 /* day16.swift in Sources */,
@@ -408,6 +416,7 @@
 				A745B4AC2B2AB9E400B81F55 /* day12test.swift in Sources */,
 				A745B4AE2B2AB9E400B81F55 /* day11test.swift in Sources */,
 				A7DEFD972B19E3150068E876 /* day00.swift in Sources */,
+				A7C3419B2B316D2C00EA310A /* day19test.swift in Sources */,
 				A76416B72B2EB46B0037D636 /* day17test.swift in Sources */,
 				A7C213972B1EEA2000435DEB /* day05.swift in Sources */,
 				A70ED1B12B20391900EC1950 /* day06.swift in Sources */,
@@ -423,6 +432,7 @@
 				A745B4AD2B2AB9E400B81F55 /* day07test.swift in Sources */,
 				A745B4B52B2AB9FB00B81F55 /* day09.swift in Sources */,
 				A745B4B02B2AB9E400B81F55 /* day10test.swift in Sources */,
+				A7C341992B316D1100EA310A /* day19.swift in Sources */,
 				A745B4B32B2AB9FB00B81F55 /* day07.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
