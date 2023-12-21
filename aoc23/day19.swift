@@ -23,8 +23,8 @@ public struct Day19Solution : DailySolution {
     
     func solvePart2(puzzle: [String]) -> String {
         let (automata, _) = parse(lines: puzzle)
-        let result = automata.reduce(arriving: Day19Solution.MultiRange.startPartRange)
-        return String(MultiRange.combinations(result))
+        let result = automata.reduce(arriving: Day19Solution.PartRange.startPartRange)
+        return String(PartRange.combinations(ranges: result))
     }
 
     
@@ -43,76 +43,11 @@ public struct Day19Solution : DailySolution {
                 try? parts.append(Part(line))
             }
         }
-        
         return (automata, parts)
     }
     
-    struct MultiRange: CustomStringConvertible {
-        
-        var description: String {
-            return ranges.sorted(by: { $0.lowerBound < $1.lowerBound }).map { "(" + String($0.lowerBound) + "..." + String($0.upperBound) + ")" }.joined(separator: ",")
-        }
-        
-        static let emptyMultirange = MultiRange(ranges: [])
-        static let emptyPartRange = [emptyMultirange, emptyMultirange, emptyMultirange, emptyMultirange]
-        static let startMultirange = MultiRange(ranges: [(1...4000)])
-        static let startPartRange = [startMultirange, startMultirange, startMultirange, startMultirange]
-        
-        var ranges = [ClosedRange<Int>]()
-        
-        var count: Int {
-            return ranges.map { $0.upperBound - $0.lowerBound + 1  }.reduce(0, +)
-        }
-        
-        
-        static func combinations(_ multiranges: [MultiRange]) -> Int {
-            return multiranges.map {$0.count }.reduce(1, *)
-        }
-        
-        
-        static func +=(lhs: inout MultiRange, rhs: MultiRange) {
-            lhs = lhs + rhs
-        }
-
-        static func +(lhs: MultiRange, rhs: MultiRange) -> MultiRange {
-            var result = lhs
-            for addRange in rhs.ranges {
-                if addRange.isEmpty {
-                    continue
-                }
-                if !result.ranges.contains(addRange) {
-                    result.ranges.append(addRange)
-                }
-            }
-            result.ranges = mergeOverlappingRanges(result.ranges.sorted(by: { $0.lowerBound < $1.lowerBound}))
-            return result
-        }
-
-        static func mergeOverlappingRanges(_ ranges: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
-            
-            if ranges.count < 2 {
-                return ranges
-            }
-            
-            var result = [ClosedRange<Int>]()
-            var currentRange = ranges[0]
-            
-            for i in 1..<ranges.count {
-                let nextRange = ranges[i]
-                
-                if currentRange.upperBound + 1 < nextRange.lowerBound {
-                    result.append(currentRange)
-                    currentRange = nextRange
-                } else {
-                    currentRange = (currentRange.lowerBound...max(currentRange.upperBound, nextRange.upperBound))
-                }
-            }
-            result.append(currentRange)
-            return result
-        }
-        
-        
-    }
+    
+      
     
     struct Condition {
         let operand : Int           // x=0, m=1, a=2, s=3
@@ -130,39 +65,32 @@ public struct Day19Solution : DailySolution {
             }
         }
         
-        func transition(arriving: [MultiRange]) -> ([MultiRange], [MultiRange]) {
-            var accepted = arriving
-            var rejected = arriving
-            var accept: MultiRange = MultiRange.emptyMultirange
-            var reject: MultiRange = MultiRange.emptyMultirange
-            for range in arriving[operand].ranges {
-                switch operation {
-                case "<":
-                    if range.upperBound < value {
-                        accept.ranges.append(range)
-                    } else if range.lowerBound >= value {
-                        reject.ranges.append(range)
-                    } else {
-                        accept.ranges.append(range.lowerBound...value-1)
-                        reject.ranges.append(value...range.upperBound)
-                    }
-                case ">":
-                    if range.lowerBound > value {
-                        accept.ranges.append(range)
-                    } else if range.upperBound <= value {
-                        reject.ranges.append(range)
-                    } else {
-                        accept.ranges.append(value+1...range.upperBound)
-                        reject.ranges.append(range.lowerBound...value)
-                    }
-                default:
-                    accept.ranges.append(range)
+        func transition(arriving: PartRange) -> (PartRange?, PartRange?) {
+            let range = arriving.rangeFor(index: operand)!
+            switch operation {
+            case "<":
+                if range.upperBound < value {
+                    return (arriving, nil)
+                } else if range.lowerBound >= value {
+                    return (nil, arriving)
+                } else {
+                    return (arriving.replace(index: operand, with: range.lowerBound...value-1),
+                            arriving.replace(index: operand, with: value...range.upperBound))
                 }
+            case ">":
+                if range.lowerBound > value {
+                    return (arriving, nil)
+                } else if range.upperBound <= value {
+                    return (nil, arriving)
+                } else {
+                    return (arriving.replace(index: operand, with: value+1...range.upperBound),
+                            arriving.replace(index: operand, with: range.lowerBound...value))
+                }
+            default:
+                return (arriving, nil)
             }
-            accepted[operand].ranges = MultiRange.mergeOverlappingRanges(accept.ranges)
-            rejected[operand].ranges = MultiRange.mergeOverlappingRanges(reject.ranges)
-            return (accepted, rejected)
         }
+        
     }
     
     struct Rule {
@@ -194,7 +122,11 @@ public struct Day19Solution : DailySolution {
         }
     }
     
+
+    
     struct Automata {
+        
+        
         var rules = [String : [Rule] ]()
         
         mutating func addRule(_ line: String) throws {
@@ -219,25 +151,29 @@ public struct Day19Solution : DailySolution {
                     }
                 }
             }
-            print(node, part.sumValues)
             return node == "A"
         }
 
-        func reduce(arriving: [MultiRange], node: String = "in", path: [String] = []) -> [MultiRange] {
+            
+        func reduce(arriving: PartRange, node: String = "in", path: [String] = []) -> [PartRange] {
             if path.contains(node) || node == "R" { // circle or rejected
-                return MultiRange.emptyPartRange
+                return []
             }
             if node == "A" {
-                return arriving
+                return [arriving]
             }
             var current = arriving
-            var result = MultiRange.emptyPartRange
+            var result = [PartRange]()
             for rule in rules[node]! {
                 let (accepted, rejected) = rule.condition.transition(arriving: current)
-                let finalAccepted = reduce(arriving: accepted, node: rule.destination, path: path + [node])
-                result = zip(result, finalAccepted).map {$0 + $1 }
-                
-                current = rejected
+                if accepted != nil {
+                    let finalAccepted = reduce(arriving: accepted!, node: rule.destination, path: path + [node])
+                    result = result + finalAccepted
+                }
+                if rejected == nil {
+                    break
+                }
+                current = rejected!
             }
             return result
         }
@@ -264,4 +200,44 @@ public struct Day19Solution : DailySolution {
     }
     
     
+    struct PartRange {
+                
+        static let startPartRange = PartRange(x: (1...4000), m: (1...4000), a: (1...4000), s: (1...4000))
+        
+        let x : ClosedRange<Int>
+        let m : ClosedRange<Int>
+        let a : ClosedRange<Int>
+        let s : ClosedRange<Int>
+        
+        
+        var combinations: Int {
+            return x.count * m.count * a.count * s.count
+        }
+        
+        func rangeFor(index: Int) -> ClosedRange<Int>? {
+            switch index {
+            case 0:
+                return x
+            case 1:
+                return m
+            case 2:
+                return a
+            case 3:
+                return s
+            default:
+                return nil
+            }
+        }
+        
+        func replace(index: Int, with range: ClosedRange<Int>) -> PartRange {
+            let ranges = (0...3).map { $0 == index ? range : rangeFor(index: $0) }
+            return PartRange(x:ranges[0]!, m:ranges[1]!, a:ranges[2]!, s:ranges[3]!)
+        }
+        
+        
+        static func combinations(ranges: [PartRange]) -> Int {
+            return ranges.reduce(0, {a, c in a + c.combinations})
+        }
+    }
+
 }

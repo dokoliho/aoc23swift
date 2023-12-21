@@ -64,7 +64,6 @@ final class day20test: XCTestCase {
         XCTAssertEqual("32000000", result)
         result = solution.solvePart1(puzzle: testPuzzle2)
         XCTAssertEqual("11687500", result)
-
     }
     
     

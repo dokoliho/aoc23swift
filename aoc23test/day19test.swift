@@ -40,8 +40,8 @@ final class day19test: XCTestCase {
     
     func testMultirange() throws {
         let (automata, _) = solution.parse(lines: ["in{a>1716:R,A}", ""])
-        let result = automata.reduce(arriving: Day19Solution.MultiRange.startPartRange)
-        XCTAssertEqual(4000*4000*1716*4000, Day19Solution.MultiRange.combinations(result))
+        let result = automata.reduce(arriving: Day19Solution.PartRange.startPartRange)
+        XCTAssertEqual(4000*4000*1716*4000, Day19Solution.PartRange.combinations(ranges: result))
     }
 
     func testSolvePart1() throws {
@@ -51,9 +51,6 @@ final class day19test: XCTestCase {
     
     func testSolvePart2() throws {
         let result = solution.solvePart2(puzzle: testPuzzle)
-        //             5940483402324240  with Overlaps
-        //              256256096016001  0...4000
-        //              256000000000000
         XCTAssertEqual("167409079868000", result)
     }
 }
