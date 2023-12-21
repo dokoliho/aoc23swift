@@ -22,13 +22,12 @@ public struct Day20Solution : DailySolution {
         while MachineModule.countPushes < 1000 {
             var _ = MachineModule.push(map: map)
         }
-        print(lowPulses, highPulses)
         return String(lowPulses * highPulses)
     }
     
     
     func solvePart2(puzzle: [String]) -> String {
-        let map = parse(lines: puzzle, part2: true)
+        let map = parse(lines: puzzle)
         reset()
         var result: Int? = nil;
         while result == nil {
@@ -38,7 +37,7 @@ public struct Day20Solution : DailySolution {
    }
     
     
-    func parse(lines: [String], part2: Bool = false) -> [String: MachineModule] {
+    func parse(lines: [String]) -> [String: MachineModule] {
         var result = [String: MachineModule]()
         for line in lines.filter({ !$0.isEmpty }) {
             //      "%a -> inv, con",
@@ -61,7 +60,7 @@ public struct Day20Solution : DailySolution {
             }
         }
         for module in result.values {
-            module.setConnections(map: result, part2)
+            module.setConnections(map: result)
         }
         return result
     }
@@ -94,6 +93,8 @@ class MachineModule {
     static var countPushes: Int = 0
 
     static let sink = MachineModule(id: "SINK", connectString: "")
+    
+    static var predOfRX: String = ""
     
     static func reset() {
         countLowPulses = 0
@@ -146,13 +147,16 @@ class MachineModule {
     
     func gotConnected(from sender: String) {}
     
-    func setConnections(map: [String: MachineModule], _ part2: Bool = false) {
+    func setConnections(map: [String: MachineModule]) {
         for name in self.connections {
             if let module = map[name] {
                 self.connectedTo.append(module)
                 module.gotConnected(from: self.name)
             } else {
                 self.connectedTo.append(MachineModule.sink)
+            }
+            if name == "rx" {
+                MachineModule.predOfRX = self.name
             }
         }
     }
@@ -214,11 +218,11 @@ class Conjunction : MachineModule {
         notifyAll(with: allHigh ? ModuleState.low : ModuleState.high)
         
         // part 2
-        // rx has only 1 input: lx
-        // lx is a conjunction, i.e.: low will be emmited when all inputs high
+        // rx has only 1 input
+        // this input is a conjunction, i.e.: low will be emmited when all inputs high
         // code below checks, when inputs become high
         // After 3 repeating cycles each: guess - no offset, result is kgV of single cycle lengths
-        if name == "lx" {
+        if name == MachineModule.predOfRX {
             if state == ModuleState.high {
                 highCycles[sender]?.append(MachineModule.countPushes)
                 if highCycles.values.map({ $0.count}).reduce(true, {a, c in a && c>3}) {
